@@ -77,7 +77,7 @@ public class Philosopher implements Runnable {
         this.rightFork = newRightFork;
     }
 
-    public boolean hasOneFork() {
+    public boolean isHoldingOneFork() {
         return hasLeftFork ^ hasRightFork; // XOR operation, true if exactly one fork is held
     }
 }

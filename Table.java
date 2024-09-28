@@ -27,14 +27,6 @@ public class Table {
         philosophers.remove(philosopher);
     }
 
-    public synchronized boolean isFull() {
-        return philosophers.size() == capacity;
-    }
-
-    public synchronized boolean isEmpty() {
-        return philosophers.isEmpty();
-    }
-
     public synchronized Philosopher getRandomPhilosopher() {
         if (!philosophers.isEmpty()) {
             return philosophers.get(RANDOM.nextInt(philosophers.size()));
@@ -51,12 +43,10 @@ public class Table {
     }
 
     public synchronized boolean isDeadlocked() {
-        try {
-            Thread.sleep(50); // Add a small delay before checking for deadlock
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if (philosophers.isEmpty()) {
+            return false;
         }
-        return philosophers.stream().allMatch(p -> p.hasOneFork());
+        return philosophers.stream().allMatch(Philosopher::isHoldingOneFork);
     }
 
     public int getSize() {
